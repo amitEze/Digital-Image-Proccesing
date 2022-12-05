@@ -1,1 +1,1 @@
-kernels[2,5]
+np.sqrt(3*3+4*4)
