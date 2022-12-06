@@ -3,13 +3,13 @@ import numpy as np
 from scipy import signal
 from scipy import misc
 
-from HelperFunctions import filter2D
+from HelperFunctions import filter2D, smoothFilter2D
 
 
 
 
 # imgPath = input("Enter a Picture Path")
-imgPath = 'CuteTiger.jpg'
+imgPath = 'CuteBuilding.jpg'
 
 
 # Read the original image
@@ -26,40 +26,48 @@ cv2.destroyAllWindows()
 img = np.float64(img)
 
 #Choosing Mode
-mode=input("Choose mode between \n 1)edge2 detection \n 2)smoothing : ")
+mode=input("Choose number for mode between \n 1)edge detection \n 2)smoothing\n")
+#Choosing kernel size:
+kerSize=int(input("Enter the kernel size from 3,5,7,9 : "))    
 if mode=='2':
-    #Choosing kernel size:
-    kerSize=int(input("Enter the kernel size from 3,5,7,9 : "))    
+
     kernel = np.ones((kerSize,kerSize))
     kernel = kernel/np.sum(kernel)
-    output = signal.convolve2d(img,kernel)
-    output = np.uint8(output)
+    output = smoothFilter2D(img,kernel)
+    
     cv2.imwrite('smoothed_img.jpg',output)
+    output = np.uint8(output)
     cv2.imshow('smoothed',output)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-else:
+elif mode=='1':
     #Edge detection
-    kerX=np.array([[-1, 0 ,1],
-                    [-2, 0, 2],
-                    [-1, 0, 1]],dtype=np.float64)
+    threshold = int(input("Please choose option number:\n1)no threshold\n2)threshold 140\n3)threshold 200\n"))
+    if threshold not in [1,2,3]:
+        print("You chose Wrong!")
+    if kerSize==3:
+        kerX=np.array([[-1, 0 ,1],
+                        [-2, 0, 2],
+                        [-1, 0, 1]])
 
-    kerY=np.array([[1, 2, 1],
-                    [0, 0, 0],
-                    [-1, -2, -1]],dtype=np.float64)
+        kerY=np.array([[1, 2, 1],
+                        [0, 0, 0],
+                        [-1, -2, -1]])
+    elif kerSize==5:
+        kerX = np.array([[-2, -1, 0 ,1, 2],
+                         [-2, -1, 0 ,1, 2],
+                        [-4, -2, 0, 2, 4],
+                        [-2, -1, 0, 1, 2],
+                        [-2, -1, 0 ,1, 2]])
 
+    edge_detection_image = filter2D(img,kerX,kerY,threshold)
 
-    test_filter2d = filter2D(img,kerX,kerY)
-    # test_filter2d = np.uint8(test_filter2d)
-    # x_wise = signal.convolve2d(img,kerX)
-    # y_wise = signal.convolve2d(img,kerY)
-    # test_convolve2D = np.round(x_wise+y_wise)
     
-    cv2.imshow('Sobel Edge Detection',test_filter2d)
+    cv2.imwrite('edge_detection_image.jpg',edge_detection_image)
+    edge_detection_image = edge_detection_image.astype(np.uint8)
+    cv2.imshow('Sobel Edge Detection',edge_detection_image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    # test_convolve2D = np.uint8(test_convolve2D)
-    # cv2.imshow('Convolve2d',test_convolve2D)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
-    cv2.imwrite('test_filter2D.jpg',test_filter2d)
+
+else:
+    print("Wrong Value")
