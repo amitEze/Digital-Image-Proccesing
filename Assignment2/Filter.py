@@ -50,8 +50,16 @@ else:
 
 
     test_filter2d = filter2D(img,kerX,kerY)
-    test_filter2d = np.uint8(test_filter2d)
+    # test_filter2d = np.uint8(test_filter2d)
+    # x_wise = signal.convolve2d(img,kerX)
+    # y_wise = signal.convolve2d(img,kerY)
+    # test_convolve2D = np.round(x_wise+y_wise)
+    
     cv2.imshow('Sobel Edge Detection',test_filter2d)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+    # test_convolve2D = np.uint8(test_convolve2D)
+    # cv2.imshow('Convolve2d',test_convolve2D)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
     cv2.imwrite('test_filter2D.jpg',test_filter2d)

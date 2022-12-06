@@ -1,2 +1,1 @@
-
-cv2.waitKey(0)
+x_wise+y_wise
