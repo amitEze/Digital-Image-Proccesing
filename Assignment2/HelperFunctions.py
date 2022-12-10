@@ -1,26 +1,27 @@
 import numpy as np
+import cv2
 
-def smoothFilter2D(img, kernelX):
+
+def XFilter2D(img, kernelX):
     kerSize = len(kernelX)-1
     rows, cols = img.shape[:2]
-    grad = np.zeros((rows, cols))
+    grad = np.zeros((rows, cols), dtype=img.dtype)
     for y in range(round((kerSize)/2), round(rows-(kerSize)/2)):
         for x in range(round((kerSize)/2), round(cols-(kerSize)/2)):
             Gx = 0
-            Gy = 0
             for i in range(round(-kerSize/2), round(kerSize/2)+1):
                 for j in range(round(-kerSize/2), round(kerSize//2)+1):
                     val = img[y+i, x+j]
                     Gx += kernelX[round(kerSize/2)+i][round(kerSize/2)+j] * val
 
             grad[round(y-kerSize/2), round(x-kerSize/2)] = Gx
-    return grad
+    return grad, cv2.absdiff(img, grad)
 
 
 def filter2D(img, kernelX, kernelY, threshold):
     kerSize = len(kernelX)-1
     rows, cols = img.shape[:2]
-    grad = np.zeros((rows, cols))
+    grad = np.zeros((rows, cols), dtype=img.dtype)
     for y in range(round((kerSize)/2), round(rows-(kerSize)/2)):
         for x in range(round((kerSize)/2), round(cols-(kerSize)/2)):
             Gx = 0
@@ -46,7 +47,7 @@ def filter2D(img, kernelX, kernelY, threshold):
                     calc = 0
 
             grad[round(y-kerSize/2), round(x-kerSize/2)] = calc
-    return grad
+    return grad, cv2.absdiff(img, grad)
 
 
 def calc_sobel_kernel(target_shape: tuple[int, int]):

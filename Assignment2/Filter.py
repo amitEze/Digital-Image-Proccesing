@@ -1,42 +1,69 @@
 import cv2
 import numpy as np
-from HelperFunctions import filter2D, smoothFilter2D, calc_sobel_kernel
+from HelperFunctions import filter2D, XFilter2D, calc_sobel_kernel
 
 
 # imgPath = input("Enter a Picture Path")
-imgPath = 'CuteBuilding.jpg'
+imgPath = 'CuteTiger.jpg'
 
 # Read the original image
 img = cv2.imread(imgPath, 0)
-
-# Display original image
-cv2.imshow('Original', img)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
 img = np.float64(img)
-
-
-# Choosing Mode
-mode = input(
-    "Choose number for mode between \n 1)edge detection \n 2)smoothing\n")
 
 # Choosing kernel size:
 kerSize = int(input("Enter the kernel size from 3,5,7,9 : "))
 
-img = cv2.copyMakeBorder(img, 0, kerSize//2, 0, kerSize//2,
-                         borderType=cv2.BORDER_CONSTANT, value=0)
+# Choosing Mode
+mode = input(
+    "Choose number for mode between \n 1)edge detection \n 2)smoothing\n 3)create kernel\n")
 
-# smoothing
-if mode == '2':
-    kernel = np.ones((kerSize, kerSize))
-    kernel = kernel/np.sum(kernel)
-    output = smoothFilter2D(img, kernel)
+# user kernel
+if mode == '3':
+    print("Enter " + str(kerSize**2) +
+          " numbers in a single line separated by space: ")
+    # User input of entries in a
+    # single line separated by space
+    entries = list(map(int, input().split()))
 
-    cv2.imwrite('smoothed_img.jpg', output)
-    output = np.uint8(output)
-    cv2.imshow('smoothed', output)
+    # For printing the matrix
+    kernel = np.array(entries).reshape(kerSize, kerSize)
+    print("you created kernel: " + str(kernel))
+    output, diff = XFilter2D(img, kernel)
+
+    # Display original image
+    cv2.imshow('Original', img)
+
+    # write and show filtered image
+    cv2.imwrite('user_kernel_img.jpg', output)
+    cv2.imshow('user_kernel_img', cv2.imread('user_kernel_img.jpg'))
+
+    # write and show diff image
+    cv2.imwrite('difference_user_kernel_img.jpg', diff)
+    cv2.imshow('difference_user_kernel_img', cv2.imread(
+        'difference_user_kernel_img.jpg'))
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+
+# smoothing
+elif mode == '2':
+    kernel = np.ones((kerSize, kerSize))
+    kernel = kernel/np.sum(kernel)
+    output, diff = XFilter2D(img, kernel)
+
+    # Display original image
+    cv2.imshow('Original', img)
+
+    # write and show filtered image
+    cv2.imwrite('smoothed_img.jpg', output)
+    cv2.imshow('smoothed', cv2.imread('smoothed_img.jpg'))
+
+    # write and show diff image
+    cv2.imwrite('difference_smoothed_img.jpg', diff)
+    cv2.imshow('difference_smoothed', cv2.imread(
+        'difference_smoothed_img.jpg'))
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
 
 # Edge detection
 elif mode == '1':
@@ -49,11 +76,19 @@ elif mode == '1':
     kerX, kerY = calc_sobel_kernel((kerSize, kerSize))
 
     # convolution edge detection
-    edge_detection_image = filter2D(img, kerX, kerY, threshold)
+    edge_detection_image, diff = filter2D(img, kerX, kerY, threshold)
 
+    # Display original image
+    cv2.imshow('Original', img.astype(np.uint8))
+
+    # write and show filtered image
     cv2.imwrite('edge_detection_image.jpg', edge_detection_image)
-    edge_detection_image = edge_detection_image.astype(np.uint8)
-    cv2.imshow('Sobel Edge Detection', edge_detection_image)
+    cv2.imshow('Sobel Edge Detection', cv2.imread('edge_detection_image.jpg'))
+
+    # write and show diff image
+    cv2.imwrite('difference_edge_detection_image.jpg', diff)
+    cv2.imshow('difference_sobel Edge Detection', cv2.imread(
+        'difference_edge_detection_image.jpg'))
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
