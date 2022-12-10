@@ -3,7 +3,7 @@ import numpy as np
 from HelperFunctions import filter2D, XFilter2D, calc_sobel_kernel
 
 
-imgPath = input("Enter a Picture Path")
+imgPath = input("Enter a Picture Path :\n")
 
 
 # Read the original image
