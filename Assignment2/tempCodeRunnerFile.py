@@ -1,2 +1,1 @@
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+cv2.copyMakeBorder(img,20, 20, 20, 20, borderType=cv2.BORDER_CONSTANT, value=0)

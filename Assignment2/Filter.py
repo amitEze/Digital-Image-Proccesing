@@ -4,11 +4,12 @@ from HelperFunctions import filter2D, XFilter2D, calc_sobel_kernel
 
 
 # imgPath = input("Enter a Picture Path")
-imgPath = 'CuteTiger.jpg'
+imgPath = 'CuteBuilding.jpg'
 
 # Read the original image
 img = cv2.imread(imgPath, 0)
 img = np.float64(img)
+
 
 # Choosing kernel size:
 kerSize = int(input("Enter the kernel size from 3,5,7,9 : "))

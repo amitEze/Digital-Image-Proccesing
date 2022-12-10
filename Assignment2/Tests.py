@@ -11,3 +11,9 @@ kerX = np.array([[2, 0, 2],
 #print(kerX*kerX)
 
 print(calc_sobel_kernel((3,3)))
+
+img = cv2.imread('CuteBuilding.jpg', 0)
+borderd = np.pad(img,1,mode='constant', constant_values=0)
+
+
+print(f'orgImg = {img.shape[:2]} bordered = {borderd.shape[:2]}')
