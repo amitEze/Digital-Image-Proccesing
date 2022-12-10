@@ -3,8 +3,8 @@ import numpy as np
 from HelperFunctions import filter2D, XFilter2D, calc_sobel_kernel
 
 
-# imgPath = input("Enter a Picture Path")
-imgPath = 'CuteBuilding.jpg'
+imgPath = input("Enter a Picture Path")
+
 
 # Read the original image
 img = cv2.imread(imgPath, 0)
