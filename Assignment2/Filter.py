@@ -31,7 +31,7 @@ if mode == '3':
     output, diff = XFilter2D(img, kernel)
 
     # Display original image
-    cv2.imshow('Original', img)
+    cv2.imshow('Original', img.astype(np.uint8))
 
     # write and show filtered image
     cv2.imwrite('user_kernel_img.jpg', output)
@@ -51,7 +51,7 @@ elif mode == '2':
     output, diff = XFilter2D(img, kernel)
 
     # Display original image
-    cv2.imshow('Original', img)
+    cv2.imshow('Original', img.astype(np.uint8))
 
     # write and show filtered image
     cv2.imwrite('smoothed_img.jpg', output)
