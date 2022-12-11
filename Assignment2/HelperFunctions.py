@@ -28,8 +28,6 @@ def filter2D(img, kernelX, kernelY, threshold):
     rows, cols = bordered.shape[:2]
     grad = np.zeros(img.shape[:2], dtype=img.dtype)
     
-    print(f'orgImg = {img.shape[:2]} bordered = {bordered.shape[:2]}')
-    
     for y in range(round((kerSize)/2), round(rows-(kerSize)/2)):
         for x in range(round((kerSize)/2), round(cols-(kerSize)/2)):
             Gx = 0

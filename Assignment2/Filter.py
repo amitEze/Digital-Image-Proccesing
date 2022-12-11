@@ -1,9 +1,10 @@
 import cv2
 import numpy as np
+import sys
 from HelperFunctions import filter2D, XFilter2D, calc_sobel_kernel
 
 
-imgPath = input("Enter a Picture Path :\n")
+imgPath = sys.argv[1]
 
 
 # Read the original image
@@ -28,6 +29,7 @@ if mode == '3':
 
     # For printing the matrix
     kernel = np.array(entries).reshape(kerSize, kerSize)
+    kernel = kernel/np.sum(kernel) if np.sum(kernel) != 0 else kernel
     print("you created kernel: " + str(kernel))
     output, diff = XFilter2D(img, kernel)
 
