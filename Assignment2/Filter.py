@@ -77,6 +77,10 @@ elif mode == '1':
 
     # calculate kernels
     kerX, kerY = calc_sobel_kernel((kerSize, kerSize))
+    if kerSize == 3:
+        kerX, kerY = kerX*2, kerY*2
+
+    print(kerX, kerY)
 
     # convolution edge detection
     edge_detection_image, diff = filter2D(img, kerX, kerY, threshold)
