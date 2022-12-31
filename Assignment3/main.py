@@ -1,11 +1,6 @@
+import sys
 import cv2
 import numpy as np
-
-
-
-
-imgPath = 'Example0.jpg'
-# img = cv2.imread(imgPath, 0)
 
 
 
@@ -57,18 +52,25 @@ def removePunctuation(imgPath: str, altitude: str):
             if w<max_w*THRESHOLD and h<max_h*THRESHOLD:
                 cv2.drawContours(img, [cnt], -1, 255, thickness=-1)
     
-    kerSize = (7,7)
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT,kerSize)
-    opening = cv2.morphologyEx(img, cv2.MORPH_OPEN,kernel)           
+    # convert to binary. Inverted, so you get white symbols on black background
+    _, thres = cv2.threshold(img, 200, 255, cv2.THRESH_BINARY_INV)
     
-    cv2.imshow('res',opening)
+    kerSize = (3,3)
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT,kerSize)
+    erosed = cv2.morphologyEx(thres, cv2.MORPH_ERODE, kernel)
+    dialated = cv2.morphologyEx(erosed, cv2.MORPH_DILATE, kernel)
+    result = cv2.bitwise_not(dialated)           
+    
+    cv2.imshow('res',result)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     
-    cv2.imwrite('result.jpg', opening)
+    cv2.imwrite('result.jpg', result)
     # return img
     
-    
-removePunctuation('Example2.jpg','area')
+
+imgPath = sys.argv[1]
+
+removePunctuation(imgPath,'area')
 # cv2.imwrite('Result.jpg', res)
 
