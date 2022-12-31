@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 # load image as grayscale
-img = cv2.imread('cuteGoodLuck.jpg', 0)
+img = cv2.imread('Example0.jpg', 0)
 
 # convert to binary. Inverted, so you get white symbols on black background
 _, thres = cv2.threshold(img, 200, 255, cv2.THRESH_BINARY_INV)
@@ -83,7 +83,8 @@ cv2.destroyAllWindows()
 print(f'w: {w}, h: {h}')
 
 # Define the kernel for morphological transformations
-kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (kerSize, kerSize))
+# kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (kerSize, kerSize))
+kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5,5))
 
 erosed = cv2.morphologyEx(thres, cv2.MORPH_ERODE, kernel)
 dialated = cv2.morphologyEx(erosed, cv2.MORPH_DILATE, kernel)
