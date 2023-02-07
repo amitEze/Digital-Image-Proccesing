@@ -20,11 +20,6 @@ def removePunctuation(imgPath: str, altitude: str):
     _, thres = cv2.threshold(img, 170, 255, cv2.THRESH_BINARY_INV)
 
     
-    # imshow for binirized image
-    # cv2.imshow('threshed',thres)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
-    
     
     # find contours in the thresholded image (this gives all symbols)
     contours, hierarchy = cv2.findContours(
@@ -70,7 +65,6 @@ def removePunctuation(imgPath: str, altitude: str):
     cv2.imshow('res',result)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    
 
 imgPath = sys.argv[1]
 

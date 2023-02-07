@@ -4,8 +4,7 @@ import sys
 from HelperFunctions import filter2D, XFilter2D, calc_sobel_kernel
 
 
-# imgPath = sys.argv[1]
-imgPath = 'steven gerrard.jpg'
+imgPath = sys.argv[1]
 
 
 # Read the original image
@@ -56,7 +55,7 @@ elif mode == '2':
 
     # Display original image
     cv2.imshow('Original', img.astype(np.uint8))
-
+    
     # write and show filtered image
     cv2.imwrite('smoothed_img.jpg', output)
     cv2.imshow('smoothed', cv2.imread('smoothed_img.jpg'))
@@ -100,3 +99,5 @@ elif mode == '1':
 
 else:
     print("Wrong Value")
+
+

@@ -17,8 +17,9 @@ def clickEvent(event, x, y, flags, params):
 
 imgPath = sys.argv[1]
 img = cv2.imread(imgPath, 0)
-img = cv2.resize(img, (0, 0), fx=0.5, fy=0.5)
+img = cv2.resize(img, (0, 0), fx=1, fy=1)
 cv2.imshow('Image', img)
+
 
 cv2.setMouseCallback('Image', clickEvent)
 cv2.waitKey(0)
@@ -63,6 +64,7 @@ cv2.ellipse(drawedImg, center, axes, userChoice[1], 270, 90, 255, 5)
 cv2.imshow('angle', drawedImg)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
+
 
 
 
