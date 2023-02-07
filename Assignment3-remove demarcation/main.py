@@ -17,8 +17,15 @@ def removePunctuation(imgPath: str, altitude: str):
     
 
     # convert to binary. Inverted, so you get white symbols on black background
-    _, thres = cv2.threshold(img, 200, 255, cv2.THRESH_BINARY_INV)
+    _, thres = cv2.threshold(img, 170, 255, cv2.THRESH_BINARY_INV)
 
+    
+    # imshow for binirized image
+    # cv2.imshow('threshed',thres)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
+    
+    
     # find contours in the thresholded image (this gives all symbols)
     contours, hierarchy = cv2.findContours(
         thres, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -34,8 +41,7 @@ def removePunctuation(imgPath: str, altitude: str):
 
     if altitude=='area':
         #area inelation
-        print('area')
-        THRESHOLD = 0.085
+        THRESHOLD = 0.070
         max_area = contour_sizes[-1][1]
         
         for cnt in contours:
@@ -49,13 +55,13 @@ def removePunctuation(imgPath: str, altitude: str):
         max_w ,max_h = max_width_and_height[0], max_width_and_height[1]
         for cnt in contours:
             w,h = cv2.boundingRect(cnt)[2:]
-            if w<max_w*THRESHOLD and h<max_h*THRESHOLD:
+            if w<max_w*0.5 and h<max_h*0.45:
                 cv2.drawContours(img, [cnt], -1, 255, thickness=-1)
     
     # convert to binary. Inverted, so you get white symbols on black background
-    _, thres = cv2.threshold(img, 200, 255, cv2.THRESH_BINARY_INV)
+    _, thres = cv2.threshold(img, 170, 255, cv2.THRESH_BINARY_INV)
     
-    kerSize = (3,3)
+    kerSize = (2,2)
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT,kerSize)
     erosed = cv2.morphologyEx(thres, cv2.MORPH_ERODE, kernel)
     dialated = cv2.morphologyEx(erosed, cv2.MORPH_DILATE, kernel)
@@ -65,12 +71,9 @@ def removePunctuation(imgPath: str, altitude: str):
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     
-    cv2.imwrite('result.jpg', result)
-    # return img
-    
 
 imgPath = sys.argv[1]
 
-removePunctuation(imgPath,'area')
+removePunctuation(imgPath,'width and height')
 # cv2.imwrite('Result.jpg', res)
 

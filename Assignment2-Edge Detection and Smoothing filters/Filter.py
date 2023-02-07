@@ -4,7 +4,8 @@ import sys
 from HelperFunctions import filter2D, XFilter2D, calc_sobel_kernel
 
 
-imgPath = sys.argv[1]
+# imgPath = sys.argv[1]
+imgPath = 'steven gerrard.jpg'
 
 
 # Read the original image
