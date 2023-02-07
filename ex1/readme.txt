@@ -1,4 +1,8 @@
-warp image and interpolate using nearest neighbor, bilinear interpolation and cubic interpolations.
+warp an image and fill black pixels using the following interpolations:
+
+nearest neighbor
+bilinear
+cubic
 
 to run:
 in terminal:
